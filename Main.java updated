@@ -27,6 +27,8 @@ public class Main {
     public static Boolean trumpet_played = false;
     public static Boolean drum_played = false;
     public static Boolean piano_played = false;
+    public static Boolean conservatory_door_locked = true;
+    public static Boolean conservatory_door_opened = true;
 
     public static String output = "When you open your eyes, you find yourself in a foyer.\nInside the foyer is a bench, a chest, an unlit candle, and a note. \"The note says, “May my light show you the way.”\nThere is a door to the north, but it is locked.";
     public static void main(String[] args) {
@@ -63,7 +65,6 @@ public class Main {
     }
             public static void foyer() {
                 System.out.println("you have " + round + " rounds left.");
-
                 Scanner scan = new Scanner(System.in);
                 System.out.println("Please enter your command");
                 String input = scan.nextLine();
@@ -82,10 +83,11 @@ public class Main {
                     case "get matches":
                         has_matches = true;
                         output = "You have a box of matches.";
-                        System.out.print(output);
+                        System.out.println(output);
                         break;
 
                     case "light candle":
+                    case "light candles":
                         if (has_matches) {
                             candle_lighted = true;
                             foyer_door_locked = false;
@@ -93,12 +95,12 @@ public class Main {
                         } else {
                             output = "You don't have any matches.";
                         }
-                        System.out.print(output);
+                        System.out.println(output);
                         break;
 
                     case "look door":
                         if (!foyer_door_locked) {
-                            if (foyer_door_opened) {
+                            if (foyer_door_opened=true) {
                                 output = "The door is unlocked and open.";
                             } else {
                                 output = "The door is unlocked, but closed.";
@@ -106,7 +108,7 @@ public class Main {
                         } else {
                             output = "The door is locked.";
                         }
-                        System.out.print(output);
+                        System.out.println(output);
                         break;
 
                     case "open door":
@@ -114,6 +116,7 @@ public class Main {
                             foyer_door_opened = true;
                             output = "The north door is open.";
                         }
+                        System.out.println(output);
                         break;
 
                     case "go north":
@@ -122,7 +125,7 @@ public class Main {
                             inlibrary = true;
                             output = "Congratulation! You have left the foyer. On your way out, the door slammed and locked. You now find yourself in a library full of shelves of books. In the center of the room is a desk, which has a pen and a scroll on it. A door is on the north side wall waiting for you to open";
                         }
-                        System.out.print(output);
+                        System.out.println(output);
                         break;
 
                 }
@@ -138,17 +141,17 @@ public class Main {
                     case "get pen":
                         has_pen = true;
                         output = "You now holding the pen.";
-                        System.out.print(output);
+                        System.out.println(output);
                         break;
 
                     case "read scroll":
                         output = "the scroll says, 'Share your story.'";
-                        System.out.print(output);
+                        System.out.println(output);
                         break;
 
                     case "search shelves":
                         output = "there is an open book on the shelves titled “The Autobiography of...” with the rest of the title empty.";
-                        System.out.print(output);
+                        System.out.println(output);
                         break;
 
                     case "write book":
@@ -156,12 +159,12 @@ public class Main {
                         Book_titled = true;
                         library_door_locked = false;
                         output = "you now have finished the book with your pen. You are ready to leave";
-                        System.out.print(output);
+                        System.out.println(output);
                         break;
 
                     case "look door":
                         if (!library_door_locked) {
-                            if (library_door_opened) {
+                            if (library_door_opened=true) {
                                 output = "The door is unlocked and open.";
                             } else {
                                 output = "The door is unlocked, but closed.";
@@ -169,7 +172,7 @@ public class Main {
                         } else {
                             output = "The door is locked.";
                         }
-                        System.out.print(output);
+                        System.out.println(output);
                         break;
 
                     case "open door":
@@ -177,16 +180,16 @@ public class Main {
                             library_door_opened = true;
                             output = "The north door is open.";
                         }
-                        System.out.print(output);
+                        System.out.println(output);
                         break;
 
-                    case "north":
+                    case "go north":
                         if (foyer_door_opened) {
                             inlibrary = false;
                             inconservatory = true;
                             output = "Congratulation! You have left the library. On your way out, the door slammed and locked. You are now in the conservatory. You now find yourself in a conservatory having three music instruments:Trumpet, Piano, and Drum. In order to escape, you need to play them in order. Good luck.";
                         }
-                        System.out.print(output);
+                        System.out.println(output);
                         break;
                 }
             }
@@ -194,44 +197,60 @@ public class Main {
             public static void conservatory() {
                 System.out.println("you have " + round + " rounds left.");
                 scan = new Scanner(System.in);
-                String test = scan.nextLine();
+                String input= scan.nextLine();
 
-                switch (test) {
-                    case "read music":
-                        output = "Timbre, Tone, Time";
-                        System.out.print(output);
-                        break;
+                switch (input) {
 
                     case "play trumpet":
-                        if (!piano_played && !drum_played) {
+                        if (!piano_played==true && !drum_played==true) {
                             trumpet_played = true;
                             output = "you have played the trumpet!";
                         } else {
                             output = "the trumpet is broken";
                         }
-                        System.out.print(output);
+                        System.out.println(output);
                         break;
 
                     case "play piano":
-                        if (trumpet_played && !drum_played) {
+                        if (trumpet_played==true && !drum_played==true) {
                             piano_played = true;
                             output = "you have played the piano";
                         } else {
                             output = "the piano is broken";
                         }
-                        System.out.print(output);
+                        System.out.println(output);
                         break;
 
                     case "play drum":
-                        if (trumpet_played && piano_played) {
+                        if (trumpet_played==true && piano_played==true) {
                             drum_played = true;
                             output = "you have played the drum";
                         } else {
                             output = "the drum is broken";
                         }
-                        System.out.print(output);
+                        System.out.println(output);
                         break;
 
+                    case "look door":
+                        if (!conservatory_door_locked) {
+                            if (conservatory_door_opened=true) {
+                                output = "The door is unlocked and open.";
+                            } else {
+                                output = "The door is unlocked, but closed.";
+                            }
+                        } else {
+                            output = "The door is locked.";
+                        }
+                        System.out.println(output);
+                        break;
+
+                    case "open door":
+                        if (!conservatory_door_locked) {
+                            conservatory_door_opened = true;
+                            output = "The north door is open.";
+                        }
+                        System.out.println(output);
+                        break;
                 }
 
             }
