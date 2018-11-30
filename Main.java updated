@@ -27,28 +27,17 @@ public class Main {
     public static Boolean trumpet_played = false;
     public static Boolean drum_played = false;
     public static Boolean piano_played = false;
-    public static Boolean conservatory_door_locked = true;
-    public static Boolean conservatory_door_opened = true;
+    public static Boolean conservatory_door_opened = false;
+    public static String output;
 
-    public static String output = "When you open your eyes, you find yourself in a foyer.\nInside the foyer is a bench, a chest, an unlit candle, and a note. \"The note says, “May my light show you the way.”\nThere is a door to the north, but it is locked.";
     public static void main(String[] args) {
-
-        System.out.println(output);
+        String output = "When you open your eyes, you find yourself in a foyer.\nInside the foyer is a bench, a chest, an unlit candle, and a note. \"The note says, “May my light show you the way.”\nThere is a door to the north, but it is locked.";
+    System.out.println(output);
         System.out.println("You have 30 moves to escape\nyou can use following verbs:\nopen, close, light, read, write, play, look, get, go\nalong with several nouns\ndoor, room, bench, chest, candle, note, matches, shelves, book, pen, scroll, music, trumpet, piano, drum, lock\nand direction\nnorth, south, east, west\nGood luck.\n");
 
         for (int a = 1; a < 31; a++) {
             gameUsage();
             round--;
-            if (trumpet_played && piano_played && drum_played) {
-                break;
-            }
-        }
-        if (trumpet_played && piano_played && drum_played) {
-            escape = true;
-            System.out.printf("\nCongratulations! You have completed the escape room challenge successfully in with %d moves to spare.", round);
-        }
-        else {
-            System.out.printf("\nYou have failed the escape room challenge. Try again!");
         }
     }
 
@@ -71,18 +60,24 @@ public class Main {
 
                 switch (input) {
                     case "look chest":
-                        output = "the chest is closed";
-                        System.out.println(output);
-                        break;
                     case "open chest":
-                        chest_opened = true;
-                        output = "There are matches in the chest.";
+                        if(!chest_opened){
+                            chest_opened=true;
+                        output = "the chest is open, and there are matches in the chest";
+                        }
+                        else if (!chest_opened){
+                            chest_opened=false;
+                            output = "the chest door is closed";}
                         System.out.println(output);
                         break;
 
                     case "get matches":
-                        has_matches = true;
-                        output = "You have a box of matches.";
+                        if(chest_opened){
+                            has_matches =true;
+                        output = "You have a box of matches.";}
+                        else if (!has_matches){
+                            output = "since the chest door is closed, you don't have a match yet";
+                        }
                         System.out.println(output);
                         break;
 
@@ -98,24 +93,15 @@ public class Main {
                         System.out.println(output);
                         break;
 
-                    case "look door":
-                        if (!foyer_door_locked) {
-                            if (foyer_door_opened=true) {
-                                output = "The door is unlocked and open.";
-                            } else {
-                                output = "The door is unlocked, but closed.";
-                            }
-                        } else {
-                            output = "The door is locked.";
-                        }
-                        System.out.println(output);
-                        break;
-
                     case "open door":
                         if (!foyer_door_locked) {
                             foyer_door_opened = true;
                             output = "The north door is open.";
                         }
+                        else if (foyer_door_opened){
+                            foyer_door_opened=false;
+                            output = "something went wrong, please enter another command";
+                    }
                         System.out.println(output);
                         break;
 
@@ -124,6 +110,9 @@ public class Main {
                             infoyer = false;
                             inlibrary = true;
                             output = "Congratulation! You have left the foyer. On your way out, the door slammed and locked. You now find yourself in a library full of shelves of books. In the center of the room is a desk, which has a pen and a scroll on it. A door is on the north side wall waiting for you to open";
+                        }
+                        else {
+                            output = "the exit door is closed ";
                         }
                         System.out.println(output);
                         break;
@@ -138,19 +127,24 @@ public class Main {
 
                 switch (input) {
 
-                    case "get pen":
-                        has_pen = true;
-                        output = "You now holding the pen.";
+                    case "search shelves":
+                    case "look shelf":
+                    case "look shelves":
+                        output = "there is an open book on the shelves titled “The Autobiography of...” with the rest of the title empty.";
                         System.out.println(output);
                         break;
 
+                    case "look book":
+                    case "look scroll":
                     case "read scroll":
                         output = "the scroll says, 'Share your story.'";
                         System.out.println(output);
                         break;
 
-                    case "search shelves":
-                        output = "there is an open book on the shelves titled “The Autobiography of...” with the rest of the title empty.";
+                    case "get pen":
+                    case "look pen":
+                        has_pen = true;
+                        output = "You now holding the pen.";
                         System.out.println(output);
                         break;
 
@@ -189,6 +183,9 @@ public class Main {
                             inconservatory = true;
                             output = "Congratulation! You have left the library. On your way out, the door slammed and locked. You are now in the conservatory. You now find yourself in a conservatory having three music instruments:Trumpet, Piano, and Drum. In order to escape, you need to play them in order. Good luck.";
                         }
+                        else {
+                            output = "the exit door is closed ";
+                        }
                         System.out.println(output);
                         break;
                 }
@@ -200,59 +197,88 @@ public class Main {
                 String input= scan.nextLine();
 
                 switch (input) {
+                    case "read music":{
+                        output="Here are three music instruments in front of you. Please play them in order";
+                    }
+                    System.out.println(output);
+                    break;
 
                     case "play trumpet":
-                        if (!piano_played==true && !drum_played==true) {
+                        if (!piano_played&& !drum_played) {
                             trumpet_played = true;
                             output = "you have played the trumpet!";
                         } else {
-                            output = "the trumpet is broken";
+                            output = "you have failed playing them in order. Please try again";
                         }
                         System.out.println(output);
                         break;
 
                     case "play piano":
-                        if (trumpet_played==true && !drum_played==true) {
+                        if (trumpet_played && !drum_played) {
                             piano_played = true;
                             output = "you have played the piano";
+                        } else if (piano_played) {
+                            if (trumpet_played) {
+                                trumpet_played = false;
+                                piano_played = false;
+                                drum_played = false;
+                                output = "you have failed playing them in order. Please try again";
+                            } else {
+                                trumpet_played = false;
+                                piano_played = false;
+                                drum_played = false;
+                                output = "you have failed playing them in order. Please try again";
+                            }
                         } else {
-                            output = "the piano is broken";
+                            trumpet_played = false;
+                            piano_played = false;
+                            drum_played = false;
+                            output = "you have failed playing them in order. Please try again";
                         }
                         System.out.println(output);
                         break;
 
                     case "play drum":
-                        if (trumpet_played==true && piano_played==true) {
+                        if (trumpet_played && piano_played) {
                             drum_played = true;
                             output = "you have played the drum";
-                        } else {
-                            output = "the drum is broken";
+                        } else if(!trumpet_played||!piano_played) {
+                            trumpet_played=false;
+                            piano_played=false;
+                            drum_played=false;
+                            output = "you have failed playing them in order. Please try again";
+                        }else {
+                            trumpet_played=false;
+                            piano_played=false;
+                            drum_played=false;
+                            output = "you have failed playing them in order. Please try again";
                         }
                         System.out.println(output);
                         break;
 
-                    case "look door":
-                        if (!conservatory_door_locked) {
-                            if (conservatory_door_opened=true) {
-                                output = "The door is unlocked and open.";
-                            } else {
-                                output = "The door is unlocked, but closed.";
-                            }
-                        } else {
-                            output = "The door is locked.";
-                        }
-                        System.out.println(output);
-                        break;
 
                     case "open door":
-                        if (!conservatory_door_locked) {
+                        if (trumpet_played && piano_played && drum_played) {
                             conservatory_door_opened = true;
                             output = "The north door is open.";
+                        }else{
+                            conservatory_door_opened=false;
+                            output= "The north door is locked";
                         }
                         System.out.println(output);
                         break;
+                    case "go north":
+                        if (trumpet_played && piano_played && drum_played) {
+                            escape = true;
+                            System.out.printf("\nCongratulations! You have completed the escape room challenge successfully in with %d moves to spare.", round);
+                        }
+                        else {
+                            System.out.println("\nYou have failed the escape room challenge. Try again!");
+                        }
+                }
                 }
 
+
+
             }
-        }
 
